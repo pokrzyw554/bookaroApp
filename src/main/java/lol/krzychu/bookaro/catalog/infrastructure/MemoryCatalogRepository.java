@@ -2,20 +2,21 @@ package lol.krzychu.bookaro.catalog.infrastructure;
 
 import lol.krzychu.bookaro.catalog.domain.Book;
 import lol.krzychu.bookaro.catalog.domain.CatalogRepository;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
-
-public class BestsellerRepository implements CatalogRepository {
+@Repository
+public class MemoryCatalogRepository implements CatalogRepository {
     private final Map<Long, Book> storage = new ConcurrentHashMap<>();
+    private final AtomicLong ID_NEXT_VALUE = new AtomicLong(0L);
 
 
-    public BestsellerRepository() {
+    public MemoryCatalogRepository() {
         storage.put(1L, new Book(1L, "harry poter", "JK ROwling", 1998));
         storage.put(2L, new Book(2L, "czysty kod", "wuja bob", 2011));
         storage.put(3L, new Book(3L, "władca pierscienia: dwie wierze", "Tolkien", 2002));
@@ -26,5 +27,16 @@ public class BestsellerRepository implements CatalogRepository {
     @Override
     public List<Book> findAll() {
         return new ArrayList<>(storage.values());
+    }
+
+    @Override
+    public void save(Book book) {
+        long nextId = nextId();
+        book.setId(nextId);         //ten fragmeny wydaję mi się komplikowaniem sprawy
+        storage.put(nextId, book);
+    }
+
+    private long nextId() {
+        return ID_NEXT_VALUE.getAndIncrement();
     }
 }

@@ -1,7 +1,7 @@
 package lol.krzychu.bookaro;
 
 import lol.krzychu.bookaro.catalog.domain.CatalogRepository;
-import lol.krzychu.bookaro.catalog.infrastructure.SchoolCatalogRepository;
+import lol.krzychu.bookaro.catalog.infrastructure.MemoryCatalogRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -13,11 +13,11 @@ public class BookaroApplication {
 		SpringApplication.run(BookaroApplication.class, args);
 	}
 
-	@Bean
+/*	@Bean
 	CatalogRepository catalogRepository()
 	{
-		return new SchoolCatalogRepository();
-	}
+		return new MemoryCatalogRepository();
+	}*/
 
 	@Bean
 	String query()

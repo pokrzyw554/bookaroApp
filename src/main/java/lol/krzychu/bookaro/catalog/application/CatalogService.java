@@ -4,6 +4,7 @@ package lol.krzychu.bookaro.catalog.application;
 import lol.krzychu.bookaro.catalog.application.port.CatalogUseCase;
 import lol.krzychu.bookaro.catalog.domain.Book;
 import lol.krzychu.bookaro.catalog.domain.CatalogRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -12,16 +13,16 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-//@AllArgsConstructor
+@AllArgsConstructor
 public class CatalogService implements CatalogUseCase {
 
 
     private final CatalogRepository repository;
 
-    public CatalogService(CatalogRepository repository)
-    {
-        this.repository = repository;
-    }
+//    public CatalogService(CatalogRepository repository)
+//    {
+//        this.repository = repository;
+//    }
 
 
     public List<Book> findByTitle(String title)
@@ -51,9 +52,11 @@ public class CatalogService implements CatalogUseCase {
     {
         return Optional.empty();
     }
-    public void addBook()
-    {
 
+    public void addBook(CreateBookCommand command)
+    {
+        Book book = new Book(command.getTitle(), command.getAuthor(), command.getYear());
+        repository.save(book);
     }
     public void removeById(long id)
     {
