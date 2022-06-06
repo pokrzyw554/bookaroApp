@@ -2,6 +2,7 @@ package lol.krzychu.bookaro.catalog;
 
 import lol.krzychu.bookaro.catalog.application.CatalogController;
 import lol.krzychu.bookaro.catalog.application.port.CatalogUseCase;
+import lol.krzychu.bookaro.catalog.application.port.CatalogUseCase.UpdateBookResponse;
 import lol.krzychu.bookaro.catalog.domain.Book;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -33,13 +34,12 @@ public class ApplicationStartUp implements CommandLineRunner {
     private void findAndUpdate() {
         catalog.findOneByTitleAndAuthor("Pan Tadeusz", "Adam Mickiewicz")
                 .ifPresent(book -> {
-                    CatalogUseCase.UpdateBookCommand command = new CatalogUseCase.UpdateBookCommand(
-                            book.getId(),
-                            "Pan Tadeusz, czyli ostatni zajazd na Litwie",
-                            book.getAuthor(),
-                            book.getYear()
-                            );
-                    catalog.updateBook(command);
+                    CatalogUseCase.UpdateBookCommand command = CatalogUseCase.UpdateBookCommand.builder()
+                            .id(book.getId())
+                            .title("Pan Tadeusz, czyli ostatni zajazd na Litwie")
+                            .build();
+                    UpdateBookResponse result = catalog.updateBook(command);
+                    System.out.println("updating book result "+ result.isSuccess());
                 });
     }
 

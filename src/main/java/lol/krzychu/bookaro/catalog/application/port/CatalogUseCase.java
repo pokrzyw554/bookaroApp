@@ -1,6 +1,7 @@
 package lol.krzychu.bookaro.catalog.application.port;
 
 import lol.krzychu.bookaro.catalog.domain.Book;
+import lombok.Builder;
 import lombok.Value;
 
 import java.util.Collections;
@@ -24,12 +25,30 @@ public interface CatalogUseCase {
         Integer year;
     }
     @Value
+    @Builder
     class UpdateBookCommand     //this also looks like complicating the code
     {
         Long id;
         String title;
         String author;
         Integer year;
+
+        public Book updateFields(Book book)
+        {
+            if(title != null)
+            {
+                book.setTitle(title);
+            }
+            if(author != null)
+            {
+                book.setAuthor(author);
+            }
+            if(year != null)
+            {
+                book.setYear(year);
+            }
+            return book;
+        }
     }
     @Value
     class UpdateBookResponse    //this is getting very strange
