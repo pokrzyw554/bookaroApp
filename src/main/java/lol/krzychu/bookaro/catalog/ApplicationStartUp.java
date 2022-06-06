@@ -14,7 +14,7 @@ public class ApplicationStartUp implements CommandLineRunner {
 
     private final CatalogUseCase catalog;
     private final String title = "Pan";
-    private final String author = "Henryk";
+    private final String author = "Adam";
 
     public ApplicationStartUp(CatalogUseCase catalogService) {
         this.catalog = catalogService;
@@ -26,7 +26,21 @@ public class ApplicationStartUp implements CommandLineRunner {
         initData();
         findByTitle();
         System.out.println("a teraz moja część!");
-        findByAuthor();
+        findAndUpdate();
+        findByTitle();
+    }
+
+    private void findAndUpdate() {
+        catalog.findOneByTitleAndAuthor("Pan Tadeusz", "Adam Mickiewicz")
+                .ifPresent(book -> {
+                    CatalogUseCase.UpdateBookCommand command = new CatalogUseCase.UpdateBookCommand(
+                            book.getId(),
+                            "Pan Tadeusz, czyli ostatni zajazd na Litwie",
+                            book.getAuthor(),
+                            book.getYear()
+                            );
+                    catalog.updateBook(command);
+                });
     }
 
     private void initData() {

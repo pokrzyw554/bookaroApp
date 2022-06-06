@@ -7,6 +7,8 @@ import lol.krzychu.bookaro.catalog.domain.CatalogRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -46,11 +48,16 @@ public class CatalogService implements CatalogUseCase {
     }
     public List<Book> findAll()
     {
-        return null;
+        return repository.findAll();
     }
     public Optional<Book> findOneByTitleAndAuthor(String title, String author)
     {
-        return Optional.empty();
+        return repository.findAll()
+                .stream()
+                .filter(book -> book.getTitle().startsWith(title))
+                .filter(book -> book.getAuthor().startsWith(author))
+                .findFirst();
+       // return Optional.empty();
     }
 
     public void addBook(CreateBookCommand command)
@@ -58,6 +65,20 @@ public class CatalogService implements CatalogUseCase {
         Book book = new Book(command.getTitle(), command.getAuthor(), command.getYear());
         repository.save(book);
     }
+
+    @Override
+    public UpdateBookResponse updateBook(UpdateBookCommand command) {
+        return repository.findById(command.getId())
+                .map(book -> {
+                    book.setTitle(command.getTitle());
+                    book.setAuthor(command.getAuthor());
+                    book.setYear(command.getYear());
+                    repository.save(book);
+                    return UpdateBookResponse.SUCCESS;
+                })
+                .orElseGet(() -> new UpdateBookResponse(false, Arrays.asList("Book not found with id: "+command.getId())));
+    }
+
     public void removeById(long id)
     {
 
