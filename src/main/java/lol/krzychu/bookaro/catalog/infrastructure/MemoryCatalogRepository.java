@@ -18,10 +18,10 @@ public class MemoryCatalogRepository implements CatalogRepository {
 
 
     public MemoryCatalogRepository() {
-        storage.put(1L, new Book(1L, "harry poter", "JK ROwling", 1998));
-        storage.put(2L, new Book(2L, "czysty kod", "wuja bob", 2011));
-        storage.put(3L, new Book(3L, "władca pierscienia: dwie wierze", "Tolkien", 2002));
-        storage.put(4L, new Book(4L, "hakowanie IoT w praktyce", "Fotios Chantzis", 2021));
+        storage.put(1L, new Book( "harry poter", "JK ROwling", 1998));
+        storage.put(2L, new Book( "czysty kod", "wuja bob", 2011));
+        storage.put(3L, new Book( "władca pierscienia: dwie wierze", "Tolkien", 2002));
+        storage.put(4L, new Book( "hakowanie IoT w praktyce", "Fotios Chantzis", 2021));
 
     }
 
