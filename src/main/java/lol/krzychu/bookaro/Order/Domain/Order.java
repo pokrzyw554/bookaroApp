@@ -1,5 +1,6 @@
 package lol.krzychu.bookaro.Order.Domain;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.Value;
 
@@ -8,11 +9,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
+@Builder
 public class Order {
     Long id;
+
     List<OrderItem> items;
     Recipient recipient;
-    OrderStatus status;
+    @Builder.Default
+    OrderStatus status = OrderStatus.NEW;
     LocalDateTime createdAt;
 
     BigDecimal totalPrice()
