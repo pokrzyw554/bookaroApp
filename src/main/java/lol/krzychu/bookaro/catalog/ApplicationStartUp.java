@@ -4,6 +4,7 @@ import lol.krzychu.bookaro.catalog.application.CatalogController;
 import lol.krzychu.bookaro.catalog.application.port.CatalogUseCase;
 import lol.krzychu.bookaro.catalog.application.port.CatalogUseCase.UpdateBookResponse;
 import lol.krzychu.bookaro.catalog.domain.Book;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import lol.krzychu.bookaro.catalog.application.port.CatalogUseCase.CreateBookCommand;
@@ -14,7 +15,7 @@ import java.util.List;
 public class ApplicationStartUp implements CommandLineRunner {
 
     private final CatalogUseCase catalog;
-    private final String title = "Pan";
+    @Value("${bookaro.catalog.query}") String title;
     private final String author = "Adam";
 
     public ApplicationStartUp(CatalogUseCase catalogService) {
