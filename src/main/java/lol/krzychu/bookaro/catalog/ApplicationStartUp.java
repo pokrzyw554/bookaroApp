@@ -29,6 +29,10 @@ public class ApplicationStartUp implements CommandLineRunner {
         System.out.println("a teraz moja część!");
         findAndUpdate();
         findByTitle();
+        CreateBookCommand command = new CreateBookCommand("Pan Nowak", "autor nieznany", 2023);
+        System.out.println("dodawanie książki");
+        catalog.addBook(command);
+        findByTitle();
     }
 
     private void findAndUpdate() {
